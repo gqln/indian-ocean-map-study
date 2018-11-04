@@ -75,18 +75,6 @@ const annotationTextStyles = {
   textShadow: "-5px 0 white, 0 5px white, 5px 0 white, 0 -5px white"
 }
 
-const cityButton = {
-  margin: "5px",
-  padding: "10px",
-  paddingLeft: "25px",
-  paddingRight: "25px",
-  color: "#607D8B",
-  backgroundColor: "white",
-  fontSize: "18px",
-  fontWeight: "Bold",
-  borderRadius: "8px"
-}
-
 const resetButton = {
   margin: "5px",
   padding: "10px",
@@ -98,11 +86,6 @@ const resetButton = {
   fontWeight: "Bold",
   borderRadius: "8px"
 }
-
-
-const include = [
-  "Africa", "Asia", "Europe", "Oceania"
-]
 
 class BodiesOfWater extends Component {
   constructor() {
@@ -192,8 +175,8 @@ class BodiesOfWater extends Component {
             }}
             >
             <ZoomableGroup center={this.state.center} zoom={this.state.zoom}>
-              <Geographies geography={"world-50m.json"}>
-                {(geographies, projection) => geographies.map((geography, i) => include.indexOf(geography.properties.CONTINENT) !== -1 && (
+              <Geographies geography={"world-10m.json"}>
+                {(geographies, projection) => geographies.map((geography, i) => (
                   <Geography
                     key={i}
                     geography={geography}

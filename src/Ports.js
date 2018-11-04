@@ -9,6 +9,7 @@ import {
   Annotation,
   Annotations
 } from "react-simple-maps"
+import { Motion, spring } from "react-motion"
 
 const wrapperStyles = {
   position: "fixed",
@@ -102,11 +103,6 @@ const resetButton = {
   borderRadius: "8px"
 }
 
-
-const include = [
-  "Africa", "Asia", "Europe", "Oceania"
-]
-
 class Ports extends Component {
   constructor() {
     super()
@@ -192,79 +188,94 @@ class Ports extends Component {
           <h1 style={titleStyles}>Ports</h1>
         </div>
         <div style={wrapperStyles}>
-          <ComposableMap
-            projection = "mercator"
-            projectionConfig={{
-              scale: 275,
-            }}
-            
-            style={{
-              viewBox: "0 0 1920 1080",
-              minHeight: "100%", 
-              minWidth: "100%",
-            }}
-            >
-            <ZoomableGroup center={this.state.center} zoom={this.state.zoom}>
-              <Geographies geography={"world-50m.json"}>
-                {(geographies, projection) => geographies.map((geography, i) => include.indexOf(geography.properties.CONTINENT) !== -1 && (
-                  <Geography
-                    key={i}
-                    geography={geography}
-                    projection={projection}
-                    style={{
-                      default: {
-                        fill: "#ECEFF1",
-                        stroke: "#607D8B",
-                        strokeWidth: 0.5,
-                        outline: "none",
-                      },
-                      hover: {
-                        fill: "#ECEFF1",
-                        stroke: "#607D8B",
-                        strokeWidth: 0.75,
-                        outline: "none",
-                      },
-                      pressed: {
-                        fill: "#ECEFF1",
-                        stroke: "#607D8B",
-                        strokeWidth: 0.75,
-                        outline: "none",
-                      },
-                    }}
-                  />
-                ))}
-              </Geographies>
-              <Markers>
-                {
+          <Motion
+          defaultStyle={{
+            zoom: 1,
+            x: 0,
+            y: 20,
+          }}
+          style={{
+            zoom: spring(this.state.zoom, {stiffness: 210, damping: 20}),
+            x: spring(this.state.center[0], {stiffness: 210, damping: 20}),
+            y: spring(this.state.center[1], {stiffness: 210, damping: 20}),
+          }}
+          >
+          {({zoom,x,y}) => (
+              <ComposableMap
+              projection = "mercator"
+              projectionConfig={{
+                scale: 275,
+              }}
+              
+              style={{
+                viewBox: "0 0 1920 1080",
+                minHeight: "100%", 
+                minWidth: "100%",
+              }}
+              >
+              <ZoomableGroup center={[x,y]} zoom={zoom}>
+                <Geographies geography={"world-10m.json"}>
+                  {(geographies, projection) => geographies.map((geography, i) => (
+                    <Geography
+                      key={i}
+                      geography={geography}
+                      projection={projection}
+                      style={{
+                        default: {
+                          fill: "#ECEFF1",
+                          stroke: "#607D8B",
+                          strokeWidth: 0.5,
+                          outline: "none",
+                        },
+                        hover: {
+                          fill: "#ECEFF1",
+                          stroke: "#607D8B",
+                          strokeWidth: 0.75,
+                          outline: "none",
+                        },
+                        pressed: {
+                          fill: "#ECEFF1",
+                          stroke: "#607D8B",
+                          strokeWidth: 0.75,
+                          outline: "none",
+                        },
+                      }}
+                    />
+                  ))}
+                </Geographies>
+                <Markers>
+                  {
+                    this.state.cities.map((city, i) => (
+                      <Marker key={i} marker={city}>
+                        <circle
+                          cx={0}
+                          cy={0}
+                          r={2.25}
+                          fill="#FF5722"
+                          onClick={() => this.toggleCityName(city)}
+                        />
+                      </Marker>
+                    ))
+                  }
+                </Markers>
+                <Annotations>
+                  {
                   this.state.cities.map((city, i) => (
-                    <Marker key={i} marker={city}>
-                      <circle
-                        cx={0}
-                        cy={0}
-                        r={2.25}
-                        fill="#FF5722"
-                        onClick={() => this.toggleCityName(city)}
-                      />
-                    </Marker>
-                  ))
-                }
-              </Markers>
-              <Annotations>
-                {
-                this.state.cities.map((city, i) => (
-                  <Annotation
-                    dx={ city.dx }
-                    dy={ city.dy }
-                    subject={ city.coordinates }
-                    strokeWidth={ 0 }
-                    style={{ visibility: city.hidden ? 'hidden' : 'visible' }}>
-                    <text id={ city.mapName + "Annotation"} style={ annotationTextStyles } >{ city.mapName }</text>
-                  </Annotation>
-                      ))
-                }
-              </Annotations>
-            </ZoomableGroup>
-          </ComposableMap>
+                    <Annotation key={city.name}
+                      dx={ city.dx }
+                      dy={ city.dy }
+                      subject={ city.coordinates }
+                      strokeWidth={ 0 }
+                      style={{ visibility: city.hidden ? 'hidden' : 'visible' }}>
+                      <text id={ city.mapName + "Annotation"} style={ annotationTextStyles } >{ city.mapName }</text>
+                    </Annotation>
+                        ))
+                  }
+                </Annotations>
+              </ZoomableGroup>
+            </ComposableMap>
+            )}
+          </Motion>
         </div>
         <div style={buttonStyles}>
           {

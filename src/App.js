@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
 import Ports from './Ports.js';
 import BodiesOfWater from './BodiesOfWater.js';
@@ -78,16 +77,12 @@ class App extends Component {
     switch(topic) {
       case "Ports":
         return <Ports> </Ports>
-        break;
       case "BodiesOfWater":
         return <BodiesOfWater> </BodiesOfWater>
-        break;
       case "StraitsAndCanals":
         return <StraitsAndCanals> </StraitsAndCanals>
-        break;
       default:
         return null;
-        break;
     }
   }
 
@@ -104,7 +99,7 @@ class App extends Component {
         <div>
           <div style={barStyles}>
           <h1 style={titleStyles}>HIST 169</h1>
-            <div class="btn-group">
+            <div className="btn-group">
               <button style={leftButton} data={"Ports"} onClick={this.mapSelected}>Ports</button>
               <button style={centerButton} data={"BodiesOfWater"} onClick={this.mapSelected}>Bodies of Water</button>
               <button style={rightButton} data={"StraitsAndCanals"} onClick={this.mapSelected}>Straits and Canals</button>
