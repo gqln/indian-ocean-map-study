@@ -10,7 +10,6 @@ import {
   Annotation,
   Annotations
 } from "react-simple-maps"
-import ReactAudioPlayer from 'react-audio-player'
 
 const wrapperStyles = {
   position: "fixed",
@@ -64,75 +63,25 @@ const titleStyles = {
   fontSize: "25px"
 }
 
-const bottomBarStyles = {
+const buttonStyles = {
   height: "auto",
 
   position: "fixed",
   bottom:0,
 
-  padding: 0,
-  display: "flex",
-  flexWrap: "wrap",
-  justifyContent: "flex-end",
-  alignSelf: "center",
-  flexDirection: "column",
-  alignItems: "center",
-  alignContent: "space-around",
-  backgroundColor: "rgba(236, 239, 241, 0.45)",
-  borderRadius: "0px",
-  borderBottomLeftRadius: "0px",
-  borderBottomRightRadius: "0px",
-  border: "1px #607D8B solid",
-	left: 0,
-	right: 0,
-	// opacity: 0.4
-}
-
-const audioPlayerStyles = {
-  height: "60px",
-  minWidth: "100%",
-  boxSizing: "border-box",
-
-  padding: "0px",
-  backgroundColor: "rgba(236, 239, 241, 0.0)",
-  borderRadius:  "0px",
-  // border: "1px #607D8B solid",
-  // opacity: 0.4
-}
-
-const timelineStyles = {
-  height: "auto",
-  width: "100%",
-  boxSizing: "border-box",
-
   padding: "15px",
   display: "flex",
   flexWrap: "wrap",
-  justifyContent: "flex-end",
-  alignSelf: "center",
+  justifyContent: "flex-start",
+  alignSelf:"center",
   flexDirection: "row",
   alignItems: "center",
   alignContent: "space-around",
-  backgroundColor: "rgba(236, 239, 241, 0.45)",
-  borderRadius: "0px",
+  backgroundColor: "#ECEFF1",
+  borderRadius: "28px",
   borderBottomLeftRadius: "0px",
   borderBottomRightRadius: "0px",
-  // border: "1px #607D8B solid",
-	// opacity: 0.4
-}
-
-const timeline = {
-	flex: 1,
-	marginLeft: "15px",
-	marginRight: "15px",
-}
-
-const timelineLabel = {
-	fontSize: "18px",
-	fontWeight: "900",
-	left: 0,
-	width: "50px"
-
+  border: "1px #607D8B solid"
 }
 
 const annotationTextStyles = {
@@ -149,6 +98,18 @@ const elementButton = {
   paddingLeft: "25px",
   paddingRight: "25px",
   color: "#607D8B",
+  backgroundColor: "white",
+  fontSize: "18px",
+  fontWeight: "Bold",
+  borderRadius: "8px"
+}
+
+const resetButton = {
+  margin: "5px",
+  padding: "10px",
+  paddingLeft: "25px",
+  paddingRight: "25px",
+  color: "red",
   backgroundColor: "white",
   fontSize: "18px",
   fontWeight: "Bold",
@@ -330,7 +291,7 @@ class Map extends Component {
                 </Geographies>
                 <Markers zoom={1}>
                   {
-                    this.props.elements.map((element, i) => element.timeStart <= this.state.time && element.timeEnd >= this.state.time && (
+                    this.props.elements.map((element, i) => (
                       <Marker key={i} marker={element}>
                         <circle
                           cx={0}
@@ -345,7 +306,7 @@ class Map extends Component {
                 </Markers>
                 <Annotations>
                   {
-                  this.props.elements.map((element, i) => element.timeStart <= this.state.time && element.timeEnd >= this.state.time && (
+                  this.props.elements.map((element, i) => (
                     <Annotation key={element.name}
                       dx={ element.dx }
                       dy={ element.dy }
@@ -361,8 +322,15 @@ class Map extends Component {
             )}
           </Motion>
         </div>
-        <div style={bottomBarStyles}>
-	    </div>
+        <div style={buttonStyles}>
+        { this.renderButtons() }
+        <button style={resetButton} onClick={this.resetClicked}>
+            { "Reset" }
+          </button>
+          <button style={resetButton} onClick={this.viewAllClicked}>
+            { "Show Answers" }
+          </button>
+	     </div>
       </div>
     )
   }

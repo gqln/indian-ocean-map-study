@@ -174,7 +174,6 @@ class App extends Component {
   mapSelected(evt) {
     const contentName = evt.target.getAttribute("data")
     const content = contentMap[contentName]
-    console.log(content.elements)
     this.setState({
       name: content.name,
       center: content.center,
