@@ -22,73 +22,36 @@ const barStyles = {
   // backgroundColor: "#ECEFF1"
 }
 
-const leftButton = {
-  padding: "10px",
-  paddingLeft: "25px",
-  paddingRight: "25px",
-  color: "#607D8B",
-  backgroundColor: "white",
-  fontSize: "18px",
-  fontWeight: "Bold",
-  borderTopLeftRadius: "8px",
-  borderBottomLeftRadius: "8px",
-}
-
-const centerButton = {
-  padding: "10px",
-  paddingLeft: "25px",
-  paddingRight: "25px",
-  color: "#607D8B",
-  backgroundColor: "white",
-  fontSize: "18px",
-  fontWeight: "Bold",
-  borderTopRightRadius: "0.0001px",
-}
-
-const rightButton = {
-  padding: "10px",
-  paddingLeft: "25px",
-  paddingRight: "25px",
-  color: "#607D8B",
-  backgroundColor: "white",
-  fontSize: "18px",
-  fontWeight: "Bold",
-  borderTopRightRadius: "8px",
-  borderBottomRightRadius: "8px",
-}
-
 const titleStyles = {
   fontSize: "25px",
   color:"#ECEFF1",
 }
 
 const ports = {
-  name: "Ports",
+  name: "The Last Century",
   center: [75,10],
   zoom: 1,
   showButtons: true,
   elements: [
-    { mapName: "Calcutta", name: "Calcutta, India", coordinates: [88.363892, 22.572645], dx:-3, dy:5, hidden: true, timeStart: 1200, timeEnd: 1350 },
-    { mapName: "Hong Kong", name: "Hong Kong, China", coordinates: [114.109497, 22.396427], dx:5, dy:10, hidden: true, timeStart: 1410, timeEnd: 1999 },
-    { mapName: "Istanbul", name: "Istanbul (Constantinople), Turkey", coordinates: [28.978359, 41.008240], dx:5, dy:5, hidden: true, timeStart: 1500, timeEnd: 1700 },
-    { mapName: "Sohar", name: "Sohar, Oman", coordinates: [56.752079, 24.325871], dx:-2, dy:-2, hidden: true, timeStart: 1300, timeEnd: 1800 },
-    { mapName: "Muscat", name: "Muscat, Oman", coordinates: [58.405922, 23.585890], dx:5, dy:-1, hidden: true, timeStart: 1000, timeEnd: 1800 },
-    { mapName: "Madras", name: "Madras (Chennai), India", coordinates: [80.270721, 13.082680], dx:5, dy:5, hidden: true, timeStart: 500, timeEnd: 1900 },
-    { mapName: "Jakarta", name: "Jakarta (Batavia), Indonesia", coordinates: [106.865036, -6.175110], dx:-5, dy:5, hidden: true, timeStart: 1801, timeEnd: 1998 },
-    { mapName: "Sofala", name: "Sofala, Mozambique", coordinates: [34.786780, -19.072660], dx:5, dy:-5, hidden: true, timeStart: 1345, timeEnd: 1603 },
-    { mapName: "Surat", name: "Surat, India", coordinates: [72.839233, 21.203510], dx:-5, dy:5, hidden: true, timeStart: 1120, timeEnd: 1963 },
-    { mapName: "Chittagong", name: "Chittagong, Bangladesh", coordinates: [91.783180, 22.356852], dx:5, dy:-5, hidden: true, timeStart: 1902, timeEnd: 1820 },
-    { mapName: "Mogadishu", name: "Mogadishu, Somalia", coordinates: [45.318161, 2.046934], dx:5, dy:5, hidden: true, timeStart: 1520, timeEnd: 1920 },
-    { mapName: "Alexandria", name: "Alexandria, Egypt", coordinates: [29.918739, 31.200092], dx:0, dy:12, hidden: true, timeStart: 1000, timeEnd: 1345 },
-    { mapName: "Aden", name: "Aden, Yemen", coordinates: [45.035469, 12.809800], dx:1, dy:10, hidden: true, timeStart: 1329, timeEnd: 1818 },
-    { mapName: "Colombo", name: "Colombo, Sri Lanka", coordinates: [79.861244, 6.927079], dx:-5, dy:5, hidden: true, timeStart: 1810, timeEnd: 1942 },
-    { mapName: "Canton", name: "Guangzho (Canton), China", coordinates: [113.288880, 23.130280], dx:1, dy:-5, hidden: true, timeStart: 1933, timeEnd: 2000 },
-    { mapName: "Calicut", name: "Calicut (Kozhikode), India", coordinates: [75.795502, 11.234130], dx:-5, dy:-5, hidden: true, timeStart: 2001, timeEnd: 2019 },
-    { mapName: "Mokha", name: "Mokha, Yemen", coordinates: [43.249530, 13.320810], dx:-5, dy:-5, hidden: true, timeStart: 1789, timeEnd: 2012 },
-    { mapName: "Zanzibar", name: "Zanzibar, Tanzania", coordinates: [39.195339, -6.158160], dx:5, dy:-5, hidden: true, timeStart: 1302, timeEnd: 1580 },
-    { mapName: "Masulipatnam", name: "Masulipatnam (Machilipatnam), India", coordinates: [81.132492, 16.178600], dx:1, dy:-5, hidden: true, timeStart: 1402, timeEnd: 1599 },
-    { mapName: "Singapore", name: "Singapore", coordinates: [103.819839, 1.352083], dx:5, dy:-5, hidden: true, timeStart: 1394, timeEnd: 1821 },
-  ]
+    { mapName: "Masjid e Suleiman", name: "Masjid e Suleiman", coordinates: [49.286903, 31.972681], dx:-3, dy:5, hidden: true, timeStart: 1908, timeEnd: 1999 },
+    { mapName: "Kirkuk", name: "Kirkuk, Iraq", coordinates: [44.378754, 35.456193], dx:5, dy:10, hidden: true, timeStart: 1927, timeEnd: 1999 },
+    { mapName: "Jebel Dukham", name: "Jebel Dukham, Bahrain", coordinates: [50.546344, 26.044488], dx:5, dy:5, hidden: true, timeStart: 1932, timeEnd: 1999 },
+    { mapName: "Dammam", name: "Dammam, Saudi Arabia", coordinates: [50.118168, 26.426153], dx:-2, dy:-2, hidden: true, timeStart: 1938, timeEnd: 1999 },
+    { mapName: "Tokyo", name: "Tokyo, Japan", coordinates: [139.822209, 35.678973], dx:5, dy:-1, hidden: true, timeStart: 1902, timeEnd: 1999 },
+    { mapName: "Jidda", name: "Jidda, Saudi Arabia", coordinates: [39.204035, 21.485854], dx:5, dy:5, hidden: true, timeStart: 1933, timeEnd: 1999 },
+    { mapName: "Al-Hasa", name: "Al-Hasa, Saudi Arabia", coordinates: [49.584494, 25.364367], dx:-5, dy:5, hidden: true, timeStart: 1935, timeEnd: 1999 },
+    ],
+  events: {
+    4.25: { active: [0], center: null, zoom: 2, time: 1908 },
+    11.50: { active: [1], center: null, zoom: 2, time: 1927 },
+    22.75: { active: [2], center: null, zoom: 2, time: 1932 },
+    27.75: { active: [3], center: null, zoom: 2, time: 1938 },
+    43.75: { active: [4], center: null, zoom: 2, time: 1902 },
+    48.75: { active: [], center: [40.204035, 21.485854], zoom: 2, time: 1939 },
+    81.75: { active: [5], center: null, zoom: 2, time: 1933 },
+    103.75: { active: [6], center: null, zoom: 2, time: 1935 },
+    115.75: { active: [], center: [77.752446, 18.537628], zoom: 1, time: 1939 },
+  }
 }
 
 const straitsAndCanals = {
@@ -138,6 +101,7 @@ class App extends Component {
       center: ports.center,
       zoom: ports.zoom,
       elements: ports.elements,
+      events: ports.events,
       showButtons: ports.showButtons
     }
     this.mapSelected = this.mapSelected.bind(this)
@@ -180,6 +144,7 @@ class App extends Component {
       center: content.center,
       zoom: content.zoom,
       elements: content.elements,
+      events: content.events,
       showButtons: content.showButtons
     })
   }
@@ -189,13 +154,13 @@ class App extends Component {
         <div>
           <div style={barStyles}>
           <h1 style={titleStyles}>HIST 169</h1>
-            <div className="btn-group">
+            {/*<div className="btn-group">
               <button style={leftButton} data={"Ports"} onClick={this.mapSelected}>Ports</button>
               <button style={centerButton} data={"BodiesOfWater"} onClick={this.mapSelected}>Bodies of Water</button>
               <button style={rightButton} data={"StraitsAndCanals"} onClick={this.mapSelected}>Straits and Canals</button>
-            </div>
+            </div>*/}
           </div>
-          <Map name={this.state.name} center={this.state.center} zoom={this.state.zoom} elements={this.state.elements} showButtons={this.state.showButtons} handleReset={this.resetClicked} handleViewAll={this.viewAllClicked} handleToggleElement={this.toggleElementName} handleSelectElement={this.selectElement}/>
+          <Map name={this.state.name} center={this.state.center} zoom={this.state.zoom} elements={this.state.elements} events={this.state.events} showButtons={this.state.showButtons} handleReset={this.resetClicked} handleViewAll={this.viewAllClicked} handleToggleElement={this.toggleElementName} handleSelectElement={this.selectElement}/>
         </div>
     );
   }

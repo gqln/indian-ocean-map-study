@@ -1,4 +1,4 @@
-import React, { Component } from "react"
+import React, { Component,  } from "react"
 import { Motion, spring } from "react-motion"
 import {
   ComposableMap,
@@ -10,6 +10,7 @@ import {
   Annotation,
   Annotations
 } from "react-simple-maps"
+import ReactAudioPlayer from 'react-audio-player'
 
 const wrapperStyles = {
   position: "fixed",
@@ -56,7 +57,7 @@ const crosshairs = {
   justifyContent: "center",
   alignItems: "center",
   pointerEvents: "none",
-  fontSize: "20px",
+  fontSize: "16px",
 }
 
 const titleStyles = {
@@ -87,27 +88,16 @@ const bottomBarStyles = {
 	// opacity: 0.4
 }
 
-const buttonStyles = {
-  height: "auto",
-  width: "100%",
+const audioPlayerStyles = {
+  height: "60px",
+  minWidth: "100%",
   boxSizing: "border-box",
 
-  padding: "15px",
-  display: "flex",
-  flexWrap: "wrap",
-  justifyContent: "flex-end",
-  alignSelf: "center",
-  flexDirection: "row",
-  alignItems: "center",
-  alignContent: "space-around",
-  backgroundColor: "rgba(236, 239, 241, 0.45)",
-  borderRadius: "0px",
-  borderBottomLeftRadius: "0px",
-  borderBottomRightRadius: "0px",
+  padding: "0px",
+  backgroundColor: "rgba(236, 239, 241, 0.0)",
+  borderRadius:  "0px",
   // border: "1px #607D8B solid",
-	left: 0,
-	right: 0,
-	// opacity: 0.4
+  // opacity: 0.4
 }
 
 const timelineStyles = {
@@ -165,25 +155,15 @@ const elementButton = {
   borderRadius: "8px"
 }
 
-const resetButton = {
-  margin: "5px",
-  padding: "10px",
-  paddingLeft: "25px",
-  paddingRight: "25px",
-  color: "red",
-  backgroundColor: "white",
-  fontSize: "18px",
-  fontWeight: "Bold",
-  borderRadius: "8px"
-}
-
 class Map extends Component {
   state = {
       center: this.props.center,
       minZoom: 0.5,
       maxZoom: 5.0,
       zoom: this.props.zoom,
-      time: 1200,
+      time: 1900,
+      labels: {},
+      labels2: []
     }
 
   constructor(props) {
@@ -192,6 +172,7 @@ class Map extends Component {
     this.resetClicked = this.resetClicked.bind(this)
     this.viewAllClicked = this.viewAllClicked.bind(this)
     this.toggleElementName = this.toggleElementName.bind(this)
+    this.updateMap = this.updateMap.bind(this)
 
     this.zoomOnWheel = this.zoomOnWheel.bind(this)
 		document.addEventListener('wheel', this.zoomOnWheel, {passive: true});
@@ -199,7 +180,9 @@ class Map extends Component {
   }
 
   elementSelected(key, element) {
-    this.props.handleSelectElement(key)
+    if (element.timeStart < this.state.time && element.timeEnd > this.state.time) {
+      this.props.handleSelectElement(key)
+    }
     this.setState({
       center: element.coordinates,
       zoom: 2,
@@ -234,7 +217,7 @@ class Map extends Component {
 
   renderButtons() {
   	if (this.props.showButtons) {
-	  	return (this.props.elements.map((element, i) => element.timeStart < this.state.time && element.timeEnd > this.state.time && (
+	  	return (this.props.elements.map((element, i) => (
 					      <button
 					        key={i}
 					        className="btn px1"
@@ -246,6 +229,37 @@ class Map extends Component {
 	  						))
 							)
 		} 
+  }
+
+  updateMap(time) {
+    var adjustedTime = Math.floor(time * 4)/4
+    
+    var event = this.props.events[adjustedTime]
+
+    if (event !== null && adjustedTime !== this.state.justMoved) {
+      for (var index in event.active) {
+        var id = event.active[index]
+        this.props.handleSelectElement(id)
+      } 
+
+      if (event.center != null) {
+        this.setState({
+          center: event.center
+        })
+      } else if (event.active.length > 0) {
+        id = event.active[0]
+        var center = this.props.elements[id].coordinates
+        this.setState({
+          center: center
+        })
+      }
+
+      this.setState({
+        zoom: event.zoom,
+        justMoved: adjustedTime,
+        time: event.time
+      })
+    }
   }
 
   render() {
@@ -287,14 +301,15 @@ class Map extends Component {
                 <Geographies geography={"world-10m.json"}>
                   {(geographies, projection) => geographies.map((geography, i) => (
                     <Geography
-                      key={i}
+                      id={geography.properties.NAME}
+                      key={geography.properties.NAME}
                       geography={geography}
                       projection={projection}
                       style={{
                         default: {
                           fill: "#dfd2ae",
                           stroke: "#c9a996",
-                          strokeWidth: 0.5,
+                          strokeWidth: 0.5, 
                           outline: "none",
                         },
                         hover: {
@@ -315,7 +330,7 @@ class Map extends Component {
                 </Geographies>
                 <Markers zoom={1}>
                   {
-                    this.props.elements.map((element, i) => element.timeStart < this.state.time && element.timeEnd > this.state.time && (
+                    this.props.elements.map((element, i) => element.timeStart <= this.state.time && element.timeEnd >= this.state.time && (
                       <Marker key={i} marker={element}>
                         <circle
                           cx={0}
@@ -330,7 +345,7 @@ class Map extends Component {
                 </Markers>
                 <Annotations>
                   {
-                  this.props.elements.map((element, i) => element.timeStart < this.state.time && element.timeEnd > this.state.time && (
+                  this.props.elements.map((element, i) => element.timeStart <= this.state.time && element.timeEnd >= this.state.time && (
                     <Annotation key={element.name}
                       dx={ element.dx }
                       dy={ element.dy }
@@ -338,8 +353,7 @@ class Map extends Component {
                       strokeWidth={ 0 }
                       style={{ visibility: element.hidden ? 'hidden' : 'visible' }}>
                       <text id={ element.mapName + "Annotation"} style={ annotationTextStyles } > { element.mapName ? element.mapName : element.name }</text>
-                    </Annotation>
-                        ))
+                    </Annotation>))
                   }
                 </Annotations>
               </ZoomableGroup>
@@ -350,17 +364,15 @@ class Map extends Component {
         <div style={bottomBarStyles}>
 	        <div style={timelineStyles}>
 	        	<span style={timelineLabel} id="timeLabel">{this.state.time}</span>
-	        	<input style={timeline} type="range" min="1200" max="2018" value={this.state.time} onChange={(e) => {	this.setState({time: e.target.value});}} id="timeline"></input>
+	        	<input style={timeline} type="range" min="1900" max="1999" value={this.state.time} onChange={(e) => {	this.setState({time: e.target.value});}} id="timeline"></input>
 	        </div>
-	        <div style={buttonStyles}>
-	          {	this.renderButtons() }
-	          <button style={resetButton} onClick={this.resetClicked}>
-	            { "Reset" }
-	          </button>
-	          <button style={resetButton} onClick={this.viewAllClicked}>
-	            { "Show Answers" }
-	          </button>
-	      </div>
+            <ReactAudioPlayer style={audioPlayerStyles}
+              src="FirstPage.m4a"
+              autoPlay={false}
+              controls={true}
+              listenInterval={100}
+              onListen={this.updateMap}
+            />
 	    </div>
       </div>
     )
