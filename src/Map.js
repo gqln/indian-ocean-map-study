@@ -236,7 +236,7 @@ class Map extends Component {
     
     var event = this.props.events[adjustedTime]
 
-    if (event !== null && adjustedTime !== this.state.justMoved) {
+    if (event != null && adjustedTime != this.state.justMoved) {
       for (var index in event.active) {
         var id = event.active[index]
         this.props.handleSelectElement(id)
